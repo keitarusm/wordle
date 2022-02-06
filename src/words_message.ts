@@ -1,5 +1,10 @@
 const words = {
 	"words": [
+		"happy",
+		"b-day",
+		"madre"
+	],
+	"valid": [
 		"cigar",
 		"rebut",
 		"sissy",
@@ -2314,10 +2319,7 @@ const words = {
 		"rower",
 		"artsy",
 		"rural",
-		"shave"
-	],
-	"valid": [
-		"b-day",
+		"shave",
 		"aahed",
 		"aalii",
 		"aargh",

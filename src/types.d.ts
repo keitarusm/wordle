@@ -43,6 +43,7 @@ type SettingType = "switch" | "dropdown";
 type Word = {
 	daily: string,
 	infinite: string,
+	message: string,
 	getState: (char: string, index: number, mode: GameMode) => LetterState,
 };
 
@@ -77,6 +78,7 @@ type Stats = {
 	maxStreak?: number;
 	lastGame: number;
 	guesses: Guesses;
+	answers: number;
 };
 
 type Guesses = {
@@ -102,6 +104,7 @@ type Mode = {
 	historical: boolean,
 	icon?: string,
 	streak?: boolean,
+	cake?: boolean,
 };
 
 type HardModeData = {

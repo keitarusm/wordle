@@ -1,8 +1,10 @@
 import seedrandom from "seedrandom";
 import { GameMode } from "./enums";
-import wordList from "./words_5";
+// import wordList from "./words_5";
+import wordList from "./words_message";
+// import messageList from "./words_message";
 
-export const ROWS = 6;
+export let ROWS = 6;
 export const COLS = 5;
 
 export const words = {
@@ -11,6 +13,13 @@ export const words = {
 		return wordList.words.includes(word) || wordList.valid.includes(word);
 	},
 };
+
+/* export const messages = {
+	...messageList,
+	contains: (word: string) => {
+		return messageList.words.includes(word) || messageList.valid.includes(word);
+	},
+}; */
 
 export function checkHardMode(board: GameBoard, row: number): HardModeData {
 	for (let i = 0; i < COLS; ++i) {
@@ -84,7 +93,7 @@ export function contractNum(n: number) {
 	}
 }
 
-export const keys = ["qwertyuiop", "asdfghjkl", "zxcvbnm"];
+export const keys = ["qwertyuiop", "asdfghjkl-", "zxcvbnm"];
 
 export function newSeed(mode: GameMode) {
 	const today = new Date();
@@ -95,11 +104,13 @@ export function newSeed(mode: GameMode) {
 			return new Date(today.getFullYear(), today.getMonth(), today.getDate(), today.getHours()).valueOf();
 		case GameMode.infinite:
 			return new Date(today.getFullYear(), today.getMonth(), today.getDate(), today.getHours(), today.getMinutes(), today.getSeconds()).valueOf();
+		case GameMode.message:
+			return new Date(today.getFullYear(), today.getMonth(), today.getDate(), today.getHours(), today.getMinutes(), today.getSeconds()).valueOf();
 	}
 }
 
 export const modeData: ModeData = {
-	default: GameMode.daily,
+	default: GameMode.message,
 	modes: [
 		{
 			name: "Daily",
@@ -125,6 +136,14 @@ export const modeData: ModeData = {
 			seed: newSeed(GameMode.infinite),
 			historical: false,
 			icon: "m7,100c0,-50 68,-50 93,0c25,50 93,50 93,0c0,-50 -68,-50 -93,0c-25,50 -93,50 -93,0z",
+		},
+		{
+			name: "Message",
+			unit: 1000,
+			start: 1642428600000,	// 17/01/2022 4:10:00pm
+			seed: newSeed(GameMode.message),
+			historical: false,
+			cake: true,
 		}
 	]
 };
@@ -154,7 +173,8 @@ export function createNewGame(mode: GameMode): GameState {
 		active: true,
 		guesses: 0,
 		time: modeData.modes[mode].seed,
-		wordNumber: getWordNumber(mode),
+		// wordNumber: getWordNumber(mode),
+		wordNumber: 0,
 		validHard: true,
 		board: {
 			words: Array(ROWS).fill(""),
@@ -184,7 +204,8 @@ export function createDefaultStats(mode: GameMode): Stats {
 			4: 0,
 			5: 0,
 			6: 0,
-		}
+		},
+		answers: 0
 	};
 	if (!modeData.modes[mode].streak) return stats;
 	return {
@@ -196,6 +217,7 @@ export function createDefaultStats(mode: GameMode): Stats {
 
 export function createLetterStates(): { [key: string]: LetterState; } {
 	return {
+		dash: "🔳",
 		a: "🔳",
 		b: "🔳",
 		c: "🔳",
